@@ -1,0 +1,176 @@
+openapi: 3.0.3
+info:
+  title: SAP BTP Integration Test Collector API
+  version: 1.0.0
+  description: >
+    Collector service running on SAP BTP to receive messages from the SAP BTP Integration and support the SAP BTP integration testing framework.
+    The collector stores multiple documents per Message ID with sequence numbers.
+servers:
+  - url: http://localhost:8080
+paths:
+  /health:
+    get:
+      summary: Health check
+      responses:
+        "200":
+          description: Collector and storage are reachable
+        "503":
+          description: Storage is unavailable
+
+  /collect:
+    post:
+      summary: Collect one incoming document
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        "202":
+          description: Document accepted
+        "413":
+          description: Payload too large
+        "503":
+          description: Storage unavailable
+
+  /runs:
+    post:
+      summary: Start a new run and clear old data
+      responses:
+        "201":
+          description: Run created
+
+  /runs/current:
+    get:
+      summary: Get current run
+      responses:
+        "200":
+          description: Current run information
+        "404":
+          description: No active run
+
+  /runs/{runId}/end:
+    post:
+      summary: End a run
+      parameters:
+        - name: runId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Run ended
+
+  /runs/{runId}:
+    delete:
+      summary: Delete a run immediately
+      parameters:
+        - name: runId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Run deleted
+
+  /runs/{runId}/messages:
+    get:
+      summary: List messages for a run
+      parameters:
+        - name: runId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Message manifest for the run
+
+  /runs/{runId}/messages/{messageId}:
+    get:
+      summary: Get one message entry
+      parameters:
+        - name: runId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: messageId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Message entry metadata
+
+  /runs/{runId}/messages/{messageId}/payload:
+    get:
+      summary: Get raw payload
+      parameters:
+        - name: runId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: messageId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Raw payload
+
+  /runs/{runId}/messages/{messageId}/header:
+    get:
+      summary: Get headers
+      parameters:
+        - name: runId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: messageId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: JSON headers
+
+  /runs/{runId}/messages/{messageId}/release:
+    delete:
+      summary: Release a message group
+      parameters:
+        - name: runId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: messageId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Released
+
+  /runs/{runId}/residual:
+    get:
+      summary: Get residual items
+      parameters:
+        - name: runId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Residual overview
