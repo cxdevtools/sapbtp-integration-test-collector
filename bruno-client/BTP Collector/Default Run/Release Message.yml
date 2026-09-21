@@ -1,0 +1,16 @@
+info:
+  name: Release Message
+  type: http
+  seq: 5
+
+http:
+  method: DELETE
+  url: "{{btp-host}}/runs/{{runId}}/messages/{{messageId}}/release"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true

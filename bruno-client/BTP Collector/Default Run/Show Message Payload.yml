@@ -1,0 +1,20 @@
+info:
+  name: Show Message Payload
+  type: http
+  seq: 4
+
+http:
+  method: GET
+  url: "{{btp-host}}/runs/{{runId}}/messages/{{messageId}}/payload?seq=1"
+  params:
+    - name: seq
+      value: "1"
+      type: query
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true

@@ -1,0 +1,40 @@
+info:
+  name: Collect via CPI
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{cpi-host}}/http/btp-collector-test/route"
+  body:
+    type: xml
+    data: |-
+      <idoc>
+        <metadata>
+          <time>1234</time>
+        </metadata>
+        <body>TEST NEU !!</body>
+      </idoc>
+  auth:
+    type: oauth2
+    flow: client_credentials
+    accessTokenUrl: "{{cpi-host-auth}}/oauth/token"
+    credentials:
+      clientId: "{{cpi-host-auth-clientid}}"
+      clientSecret: "{{cpi-host-auth-clientsecret}}"
+      placement: body
+    tokenConfig:
+      id: credentials
+      placement:
+        header: Bearer
+      source: access_token
+    settings:
+      autoFetchToken: true
+      autoRefreshToken: false
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
