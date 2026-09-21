@@ -7,9 +7,9 @@ http:
   method: POST
   url: "{{btp-host}}/collect/Inbound/Product"
   headers:
-    - name: SAP_RunId
+    - name: x-test-run-id
       value: "{{runId}}"
-    - name: SAP_MessageProcessingLogID
+    - name: x-message-id
       value: "{{messageId}}"
     - name: X-CPI-HeaderTest1
       value: TestValue

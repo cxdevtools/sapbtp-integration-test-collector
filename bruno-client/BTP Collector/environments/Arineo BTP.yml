@@ -2,21 +2,26 @@ name: Arineo BTP
 variables:
   - name: protocol
     value: https
+    description: ""
   - name: btp-domain
-    value: cpi-test-collector.cfapps.eu10-005.hana.ondemand.com
+    value: sapbtp-integration-test-collector.cfapps.eu10-005.hana.ondemand.com
+    description: ""
   - name: cpi-domain
     value: integration-arineo-btp.it-cpi049-rt.cfapps.eu10-003.hana.ondemand.com
+    description: ""
   - name: cpi-domain-auth
     value: integration-arineo-btp.authentication.eu10.hana.ondemand.com
+    description: ""
   - name: btp-host
     value: "{{protocol}}://{{btp-domain}}"
+    description: ""
   - name: cpi-host
     value: "{{protocol}}://{{cpi-domain}}"
+    description: ""
   - name: cpi-host-auth
     value: "{{protocol}}://{{cpi-domain-auth}}"
+    description: ""
   - secret: true
     name: cpi-host-auth-clientid
-    description: ""
   - secret: true
     name: cpi-host-auth-clientsecret
-    description: ""
