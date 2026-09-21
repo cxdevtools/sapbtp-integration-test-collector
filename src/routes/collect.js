@@ -8,12 +8,12 @@ async function collectRoutes(fastify) {
   });
 
   const collectHandler = async (request, reply) => {
-    const messageId = request.headers['x-message-id'];
+    const messageId = request.headers['SAP_MessageProcessingLogID'];
     if (!messageId) {
-      return reply.code(400).send({ error: 'Missing X-Message-Id header' });
+      return reply.code(400).send({ error: 'Missing SAP_MessageProcessingLogID header' });
     }
 
-    const testRunId = request.headers['x-test-run-id'] || 'default';
+    const testRunId = request.headers['SAP_RunId'] || 'default';
     const payload = request.body || Buffer.alloc(0);
 
     // Derive the sub-path after /collect (e.g. /collect/inbound/Product -> /inbound/Product)
